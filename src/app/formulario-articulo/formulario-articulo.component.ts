@@ -84,27 +84,31 @@ export class FormularioArticuloComponent implements OnChanges {
 
   onSubmit() {
     if (this.articuloForm.valid) {
-      const nuevoArticulo = this.articuloForm.getRawValue();
-      console.log('Nuevo Artículo:', nuevoArticulo);
+        const nuevoArticulo = this.articuloForm.getRawValue(); // Obtener los valores
+        // Ajustar descontinuado
+        nuevoArticulo.descontinuado = nuevoArticulo.descontinuado ? 1 : 0; // Convertir a 0 o 1
 
-      this.http.post<any>('http://localhost/api/articulos.php', nuevoArticulo).subscribe(
-        data => {
-          this.postId = data.id; // Suponiendo que el backend devuelva un ID del artículo
-          console.log('Artículo agregado exitosamente:', data);
-          this.showAlert = true; // Mostrar alerta
-          this.alertType = 'success'; // Tipo de alerta
-          this.alertMessage = 'Artículo agregado exitosamente.'; // Mensaje de éxito
-          this.articuloForm.reset(); // Reiniciar el formulario si es necesario
-        },
-        error => {
-          console.error('Error al agregar el artículo:', error);
-          this.showAlert = true; // Mostrar alerta
-          this.alertType = 'danger'; // Tipo de alerta
-          this.alertMessage = 'Error al agregar el artículo. Por favor, intenta de nuevo.'; // Mensaje de error
-        }
-      );
+        console.log('Nuevo Artículo:', nuevoArticulo);
+
+        // Enviar la solicitud POST al backend
+        this.http.post<any>('http://localhost/api/articulos.php', nuevoArticulo).subscribe(
+            data => {
+                this.postId = data.id; // Suponiendo que el backend devuelva un ID del artículo
+                console.log('Artículo agregado exitosamente:', data);
+                this.showAlert = true;
+                this.alertType = 'success';
+                this.alertMessage = 'Artículo agregado exitosamente.';
+                this.articuloForm.reset(); // Reiniciar el formulario
+            },
+            error => {
+                console.error('Error al agregar el artículo:', error);
+                this.showAlert = true;
+                this.alertType = 'danger';
+                this.alertMessage = 'Error al agregar el artículo. Por favor, intenta de nuevo.';
+            }
+        );
     } else {
-      console.log('El formulario no es válido');
+        console.log('El formulario no es válido');
     }
   }
 }
