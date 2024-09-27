@@ -15,11 +15,27 @@
     <p><strong>Modelo:</strong> {{ articulo.Modelo }}</p>
     <p><strong>Stock:</strong> {{ articulo.Stock }}</p>
     <p><strong>Descontinuado:</strong> {{ articulo.Descontinuado === 1 ? 'Sí' : 'No' }}</p>
-    <button class="btn btn-danger" (click)="eliminarArticulo()">Eliminar Artículo</button>
+    <div class="container">
+      <div class="row align-items-start">
+        <div class="col mx-auto">
+          <button class="btn btn-danger" (click)="eliminarArticulo()">Eliminar Artículo?</button>
+        </div>
+        <div class="col mx-auto">
+          <button class="btn btn-secondary" (click)="mostrarFormularioModificacion()">Modificar Artículo</button>
+        </div>
+      </div>
+    </div>
+
+
+    @if (showModificationForm) {
+      <h3>Modificar Artículo:</h3>
+      <app-formulario-articulo
+        [articulo]="articulo"
+        [disableFields]="false"></app-formulario-articulo>
+    }
   } @else {
     @if (articuloNoEncontrado) {
       <p>Artículo no encontrado. Intente buscar otro SKU.</p>
-      <app-formulario-articulo [sku]="searchForm.get('sku')?.value" [disableFields]="disableFields"></app-formulario-articulo>
     }
   }
 </div>
