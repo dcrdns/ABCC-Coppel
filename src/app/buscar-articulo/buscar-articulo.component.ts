@@ -48,4 +48,35 @@ export class BuscarArticuloComponent {
       );
     }
   }
+  eliminarArticulo() {
+    if (this.articulo) {
+        const sku = this.articulo.Sku;
+        if (sku === undefined) {
+            alert('Error: SKU no válido.');
+            return;
+        }
+
+        // Confirmación antes de eliminar
+        const confirmed = confirm('¿Estás seguro de que deseas eliminar este artículo?');
+        if (confirmed) {
+            this.http.delete(`http://localhost/api/articulos.php?sku=${sku}`).subscribe(
+                (response) => {
+                    console.log('Artículo eliminado:', response);
+                    this.articulo = null;
+                    this.articuloNoEncontrado = false;
+                    alert('Artículo eliminado exitosamente.');
+                },
+                (error) => {
+                    console.error('Error al eliminar el artículo:', error);
+                    alert('Error al eliminar el artículo.');
+                }
+            );
+        } else {
+            console.log('Eliminación cancelada.');
+        }
+    } else {
+        alert('Error: No se encontró el artículo para eliminar.');
+    }
+}
+
 }

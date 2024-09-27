@@ -93,7 +93,7 @@ export class FormularioArticuloComponent implements OnChanges {
         // Enviar la solicitud POST al backend
         this.http.post<any>('http://localhost/api/articulos.php', nuevoArticulo).subscribe(
             data => {
-                this.postId = data.id; // Suponiendo que el backend devuelva un ID del artículo
+                this.postId = data.id;
                 console.log('Artículo agregado exitosamente:', data);
                 this.showAlert = true;
                 this.alertType = 'success';
