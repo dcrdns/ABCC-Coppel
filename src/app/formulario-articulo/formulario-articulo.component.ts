@@ -12,6 +12,7 @@ import { ReactiveFormsModule } from '@angular/forms';
   imports: [CommonModule, ReactiveFormsModule, HttpClientModule]
 })
 export class FormularioArticuloComponent implements OnChanges {
+  @Input() sku: string = ''; // Recibe el SKU no encontrado (nuevo)
   @Input() articulo: any; // Recibe el objeto artículo
   @Input() disableFields: boolean = false; // Bandera para desactivar campos
   isEditing: boolean = false; // Bandera para saber si estamos modificando un artículo
@@ -33,7 +34,7 @@ export class FormularioArticuloComponent implements OnChanges {
     const fechaBaja = '1900-01-01'; // Valor por defecto para Fecha Baja
 
     this.articuloForm = this.fb.group({
-      sku: [{ value: '', disabled: true }, [Validators.required]], // SKU desactivado
+      sku: [{ value: this.sku, disabled: true }, [Validators.required]], // SKU desactivado
       articulo: ['', [Validators.required]],
       marca: ['', [Validators.required]],
       modelo: ['', [Validators.required]],
@@ -44,7 +45,7 @@ export class FormularioArticuloComponent implements OnChanges {
       cantidad: ['', [Validators.required, Validators.min(1)]],
       fechaAlta: [{ value: fechaAlta, disabled: true }, [Validators.required]], // Fecha Alta por defecto
       fechaBaja: [{ value: fechaBaja, disabled: true }], // Fecha Baja por defecto
-      descontinuado: [0] // Descontinuado por defecto
+      descontinuado: [{ value: 0, disabled: false }] // Descontinuado por defecto
     });
 
     this.obtenerCatalogos(); // Cargar los datos de las tablas
@@ -52,6 +53,10 @@ export class FormularioArticuloComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['disableFields']) {
+      if(!this.isEditing){
+        this.articuloForm.get('sku')?.setValue(this.sku);
+      }
+      this.articuloForm.patchValue({ sku: this.sku });
       if (this.disableFields) {
         this.articuloForm.get('sku')?.disable();
         this.articuloForm.get('fechaAlta')?.disable();
@@ -96,6 +101,7 @@ export class FormularioArticuloComponent implements OnChanges {
         this.departamentos = data.departamentos;
         this.clases = data.clases;
         this.familias = data.familias;
+        console.log(this.familias)
       },
       (error) => {
         console.error('Error al cargar los catálogos:', error);
@@ -110,6 +116,7 @@ export class FormularioArticuloComponent implements OnChanges {
       nuevoArticulo.descontinuado = nuevoArticulo.descontinuado ? 1 : 0; // Convertir a 0 o 1
 
       console.log(this.isEditing ? 'Modificando Artículo:' : 'Agregando Artículo:', nuevoArticulo);
+      console.log(nuevoArticulo)
 
       if (this.isEditing) {
         // Modificar el artículo
