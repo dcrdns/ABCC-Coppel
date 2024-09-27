@@ -7,6 +7,10 @@
     <input type="number" id="sku" formControlName="sku" class="form-control" placeholder="SKU" />
   </div>
   <div class="form-group">
+    <label for="descontinuado">Descontinuado:</label>
+    <input type="checkbox" id="descontinuado" formControlName="descontinuado" />
+  </div>
+  <div class="form-group">
     <label for="articulo">Nombre del Artículo:</label>
     <input type="text" id="articulo" formControlName="articulo" class="form-control" placeholder="Nombre del Artículo" />
   </div>
@@ -36,25 +40,38 @@
       <option *ngFor="let familia of familias" [value]="familia.id">{{ familia.nombre }}</option>
     </select>
   </div>
-  <div class="form-group">
-    <label for="stock">Stock:</label>
-    <input type="number" id="stock" formControlName="stock" class="form-control" placeholder="Stock" />
+  <div class="container">
+    <div class="row align-items-start">
+      <div class="col">
+        <div class="form-group">
+          <label for="stock">Stock:</label>
+          <input type="number" id="stock" formControlName="stock" class="form-control" placeholder="Stock" />
+        </div>
+      </div>
+      <div class="col">
+        <div class="form-group">
+          <label for="cantidad">Cantidad:</label>
+          <input type="number" id="cantidad" formControlName="cantidad" class="form-control" placeholder="Cantidad" />
+        </div>
+      </div>
+    </div>
   </div>
-  <div class="form-group">
-    <label for="cantidad">Cantidad:</label>
-    <input type="number" id="cantidad" formControlName="cantidad" class="form-control" placeholder="Cantidad" />
+  <div class="container">
+    <div class="row align-items-start">
+      <div class="col">
+        <div class="form-group">
+          <label for="fechaAlta">Fecha Alta:</label>
+          <input type="date" id="fechaAlta" formControlName="fechaAlta" class="form-control" />
+        </div>
+      </div>
+      <div class="col">
+        <div class="form-group">
+          <label for="fechaBaja">Fecha Baja:</label>
+          <input type="date" id="fechaBaja" formControlName="fechaBaja" class="form-control" />
+        </div>
+      </div>
+    </div>
   </div>
-  <div class="form-group">
-    <label for="fechaAlta">Fecha Alta:</label>
-    <input type="date" id="fechaAlta" formControlName="fechaAlta" class="form-control" />
-  </div>
-  <div class="form-group">
-    <label for="fechaBaja">Fecha Baja:</label>
-    <input type="date" id="fechaBaja" formControlName="fechaBaja" class="form-control" />
-  </div>
-  <div class="form-group">
-    <label for="descontinuado">Descontinuado:</label>
-    <input type="checkbox" id="descontinuado" formControlName="descontinuado" />
-  </div>
-  <button type="submit" class="btn btn-primary">{{ confirmButtonText }}</button> <!-- Botón de confirmación -->
+
+  <button type="submit" class="btn btn-primary mt-3">{{ confirmButtonText }}</button> <!-- Botón de confirmación -->
 </form>
