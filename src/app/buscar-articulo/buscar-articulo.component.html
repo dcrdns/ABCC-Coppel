@@ -1,0 +1,22 @@
+<div class="container">
+  <h2>Buscar Artículo por SKU</h2>
+  <form [formGroup]="searchForm" (ngSubmit)="buscarArticulo()">
+    <div class="form-group">
+      <label for="sku">SKU:</label>
+      <input type="number" id="sku" formControlName="sku" class="form-control" placeholder="Ingresa el SKU" />
+    </div>
+    <button type="submit" class="btn btn-primary mt-3">Buscar</button>
+  </form>
+
+  @if (articulo) {
+    <h3>Artículo encontrado:</h3>
+    <p><strong>Artículo:</strong> {{ articulo.Articulo }}</p>
+    <p><strong>Marca:</strong> {{ articulo.Marca }}</p>
+    <p><strong>Modelo:</strong> {{ articulo.Modelo }}</p>
+    <p><strong>Stock:</strong> {{ articulo.Stock }}</p>
+  } @else {
+    @if (articuloNoEncontrado) {
+      <app-formulario-articulo [sku]="searchForm.get('sku')?.value" [disableFields]="disableFields"></app-formulario-articulo>
+    }
+  }
+</div>
