@@ -35,7 +35,7 @@
     }
   } @else {
     @if (articuloNoEncontrado) {
-      <app-formulario-articulo [sku]="searchForm.get('sku')?.value" [disableFields]="disableFields"></app-formulario-articulo>
+      <app-formulario-articulo [sku]="searchForm.get('sku')?.value" [disableFields]=true></app-formulario-articulo>
     }
   }
 </div>

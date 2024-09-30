@@ -12,45 +12,45 @@ import { ReactiveFormsModule } from '@angular/forms';
   imports: [CommonModule, ReactiveFormsModule, HttpClientModule]
 })
 export class FormularioArticuloComponent implements OnChanges {
-  @Input() sku: string = ''; // Recibe el SKU no encontrado (nuevo)
-  @Input() articulo: any; // Recibe el objeto artículo
-  @Input() disableFields: boolean = false; // Bandera para desactivar campos
-  isEditing: boolean = false; // Bandera para saber si estamos modificando un artículo
-  confirmButtonText: string = 'Agregar Artículo'; // Texto del botón de confirmación
+  @Input() sku: string = '';
+  @Input() articulo: any;
+  @Input() disableFields: boolean = false;
+  isEditing: boolean = false;
+  confirmButtonText: string = 'Agregar Artículo';
 
   articuloForm: FormGroup;
-  showAlert: boolean = false; // Control para mostrar alerta
-  alertType: string = ''; // Tipo de alerta: success o danger
-  alertMessage: string = ''; // Mensaje de alerta
-  postId: number | undefined; // Para almacenar el ID del artículo agregado
+  showAlert: boolean = false;
+  alertType: string = '';
+  alertMessage: string = '';
+  postId: number | undefined;
 
-  departamentos: any[] = []; // Para almacenar los departamentos
-  clases: any[] = []; // Para almacenar las clases
-  familias: any[] = []; // Para almacenar las familias
-
+  departamentos: any[] = [];
+  clases: any[] = [];
+  familias: any[] = [];
+  //Constructor
   constructor(private fb: FormBuilder, private http: HttpClient) {
-    const today = new Date(); // Obtener la fecha actual
-    const fechaAlta = today.toISOString().split('T')[0]; // Formatear fecha a YYYY-MM-DD
-    const fechaBaja = '1900-01-01'; // Valor por defecto para Fecha Baja
+    const today = new Date();
+    const fechaAlta = today.toISOString().split('T')[0];
+    const fechaBaja = '1900-01-01';
 
     this.articuloForm = this.fb.group({
-      sku: [{ value: this.sku, disabled: true }, [Validators.required]], // SKU desactivado
+      sku: [{ value: this.sku, disabled: true }, [Validators.required]],
       articulo: ['', [Validators.required]],
       marca: ['', [Validators.required]],
       modelo: ['', [Validators.required]],
-      departamento: ['', [Validators.required]], // Agregar validación
-      clase: ['', [Validators.required]], // Agregar validación
-      familia: ['', [Validators.required]], // Agregar validación
+      departamento: ['', [Validators.required]],
+      clase: ['', [Validators.required]],
+      familia: ['', [Validators.required]],
       stock: ['', [Validators.required, Validators.min(1)]],
       cantidad: ['', [Validators.required, Validators.min(1)]],
-      fechaAlta: [{ value: fechaAlta, disabled: true }, [Validators.required]], // Fecha Alta por defecto
-      fechaBaja: [{ value: fechaBaja, disabled: true }], // Fecha Baja por defecto
-      descontinuado: [{ value: 0, disabled: false }] // Descontinuado por defecto
+      fechaAlta: [{ value: fechaAlta, disabled: true }, [Validators.required]],
+      fechaBaja: [{ value: fechaBaja, disabled: true }],
+      descontinuado: [{ value: 0, disabled: false }]
     });
 
     this.obtenerCatalogos(); // Cargar los datos de las tablas
   }
-
+  //Cambia datos
   ngOnChanges(changes: SimpleChanges) {
     if (changes['disableFields']) {
       if(!this.isEditing){
@@ -84,13 +84,13 @@ export class FormularioArticuloComponent implements OnChanges {
         cantidad: this.articulo.Cantidad,
         fechaAlta: this.articulo.FechaAlta,
         fechaBaja: this.articulo.FechaBaja,
-        descontinuado: this.articulo.Descontinuado === 1 ? true : false // Convertir a booleano
+        descontinuado: this.articulo.Descontinuado === 1 ? true : false
       });
       this.isEditing = true; // Indicar que estamos en modo de edición
-      this.confirmButtonText = 'Modificar Artículo'; // Cambiar texto del botón
+      this.confirmButtonText = 'Modificar Artículo';
     } else {
       this.isEditing = false; // Estamos en modo agregar
-      this.confirmButtonText = 'Agregar Artículo'; // Cambiar texto del botón
+      this.confirmButtonText = 'Agregar Artículo';
     }
   }
 
@@ -126,7 +126,7 @@ export class FormularioArticuloComponent implements OnChanges {
             this.showAlert = true;
             this.alertType = 'success';
             this.alertMessage = 'Artículo modificado exitosamente.';
-            this.articuloForm.reset(); // Reiniciar el formulario
+            this.articuloForm.reset();
           },
           error => {
             console.error('Error al modificar el artículo:', error);
@@ -144,7 +144,7 @@ export class FormularioArticuloComponent implements OnChanges {
             this.showAlert = true;
             this.alertType = 'success';
             this.alertMessage = 'Artículo agregado exitosamente.';
-            this.articuloForm.reset(); // Reiniciar el formulario
+            this.articuloForm.reset();
           },
           error => {
             console.error('Error al agregar el artículo:', error);

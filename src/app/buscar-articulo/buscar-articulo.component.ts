@@ -13,18 +13,17 @@ import { FormularioArticuloComponent } from '../formulario-articulo/formulario-a
   styleUrls: ['./buscar-articulo.component.css']
 })
 export class BuscarArticuloComponent {
-  searchForm: FormGroup; // Formulario de búsqueda
-  articulo: any = null; // Para almacenar los datos del artículo
-  articuloNoEncontrado = false; // Indica si el artículo no se encontró
-  disableFields = false; // Bandera para desactivar campos en el formulario
-  showModificationForm = false; // Bandera para mostrar el formulario de modificación
-
+  searchForm: FormGroup;
+  articulo: any = null;
+  articuloNoEncontrado = false;
+  disableFields = false;
+  showModificationForm = false;
+  // Constructor
   constructor(private fb: FormBuilder, private http: HttpClient) {
     this.searchForm = this.fb.group({
       sku: ['', Validators.required]
     });
   }
-
   // Buscar el artículo por SKU
   buscarArticulo() {
     const sku = this.searchForm.get('sku')?.value;
@@ -34,12 +33,12 @@ export class BuscarArticuloComponent {
           if (data.length > 0) {
             this.articulo = data[0];
             this.articuloNoEncontrado = false;
-            this.disableFields = false; // Si se encuentra el artículo, no desactivar campos
-            this.showModificationForm = false; // Ocultar el formulario de modificación inicialmente
+            this.disableFields = false;
+            this.showModificationForm = false;
           } else {
             this.articulo = null;
             this.articuloNoEncontrado = true;
-            this.disableFields = true; // Si no se encuentra el artículo, desactivar ciertos campos
+            this.disableFields = true;
           }
         },
         (error) => {
@@ -53,7 +52,7 @@ export class BuscarArticuloComponent {
 
   // Mostrar el formulario de modificación
   mostrarFormularioModificacion() {
-    this.showModificationForm = true; // Cambiar el estado para mostrar el formulario
+    this.showModificationForm = true;
   }
 
   // Eliminar el artículo
